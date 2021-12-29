@@ -25,6 +25,8 @@ function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
+    console.log(info);
+    if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       //same board movement.
       setToDos((prevBoards) => {
@@ -34,6 +36,20 @@ function App() {
         return {
           ...prevBoards,
           [source.droppableId]: copiedBoard,
+        };
+      });
+    }
+    if (destination.droppableId !== source.droppableId) {
+      //cross board movement.
+      setToDos((prevBoards) => {
+        const sourceBoard = [...prevBoards[source.droppableId]]; //움직임이 시작된 board의 복사본
+        const destinationBoard = [...prevBoards[destination.droppableId]]; //움직임이 끝난 board의 복사본
+        sourceBoard.splice(source.index, 1);
+        destinationBoard.splice(destination?.index, 0, draggableId);
+        return {
+          ...prevBoards,
+          [source.droppableId]: sourceBoard,
+          [destination.droppableId]: destinationBoard,
         };
       });
     }
