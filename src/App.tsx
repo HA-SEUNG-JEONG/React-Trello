@@ -30,8 +30,10 @@ function App() {
       //same board movement.
       setToDos((prevBoards) => {
         const copiedBoard = [...prevBoards[source.droppableId]];
+        const taskObj = copiedBoard[source.index]; //옮기려고 하는 to do object 전체를 가져다줌
+
         copiedBoard.splice(source.index, 1);
-        copiedBoard.splice(destination?.index, 0, draggableId);
+        copiedBoard.splice(destination?.index, 0, taskObj);
         return {
           ...prevBoards,
           [source.droppableId]: copiedBoard,
@@ -42,9 +44,10 @@ function App() {
       //cross board movement.
       setToDos((prevBoards) => {
         const sourceBoard = [...prevBoards[source.droppableId]]; //움직임이 시작된 board의 복사본
+        const taskObj = sourceBoard[source.index];
         const destinationBoard = [...prevBoards[destination.droppableId]]; //움직임이 끝난 board의 복사본
         sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination?.index, 0, draggableId);
+        destinationBoard.splice(destination?.index, 0, taskObj);
         return {
           ...prevBoards,
           [source.droppableId]: sourceBoard,
