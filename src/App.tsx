@@ -6,7 +6,7 @@ import Board from "./Components/Board";
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: 680px;
+  max-width: 950px;
   width: 100%;
   margin: 0 auto;
   justify-content: center;
@@ -24,16 +24,16 @@ const Boards = styled.div`
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = (info: DropResult) => {
-    const { destination, draggableId, source } = info;
+    const { destination, source } = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       //same board movement.
       setToDos((prevBoards) => {
         const copiedBoard = [...prevBoards[source.droppableId]];
         const taskObj = copiedBoard[source.index]; //옮기려고 하는 to do object 전체를 가져다줌
-
         copiedBoard.splice(source.index, 1);
         copiedBoard.splice(destination?.index, 0, taskObj);
+        // console.log("copiedBoard", copiedBoard); //최종적으로 옮겨진 Board
         return {
           ...prevBoards,
           [source.droppableId]: copiedBoard,

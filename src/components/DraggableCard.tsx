@@ -1,6 +1,8 @@
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import React from "react";
+import { useSetRecoilState } from "recoil";
+import { toDoState } from "../atoms";
 
 const Card = styled.div<{ isDragging: boolean }>`
   border-radius: 5px;
@@ -19,6 +21,18 @@ interface IDraggableCardProps {
 }
 
 function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
+  const setToDos = useSetRecoilState(toDoState);
+  const onDelete = (event: React.FormEvent<HTMLButtonElement>) => {
+    const {
+      currentTarget: { parentElement },
+    } = event;
+
+    setToDos((toDoCards) => {
+      const newToDoCard = toDoCards.filter(
+        (toDoCard) => toDoCard.id !== Number(parentElement?.id)
+      );
+    });
+  };
   return (
     <Draggable key={toDoId} draggableId={toDoId + ""} index={index}>
       {(magic, snapshot) => (
@@ -29,6 +43,7 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
           {...magic.dragHandleProps}
         >
           {toDoText}
+          <button onClick={onDelete}>❌</button>
         </Card>
       )}
     </Draggable>
