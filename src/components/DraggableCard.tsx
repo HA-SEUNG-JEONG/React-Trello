@@ -22,16 +22,16 @@ interface IDraggableCardProps {
 
 function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
   const setToDos = useSetRecoilState(toDoState);
-  const onDelete = (id: string) => {
+  const onDeleteClick = (id: string) => {
     setToDos((toDoCards) => {
-      const copyBoard = { ...toDoCards };
-      const keys = Object.keys(toDoCards);
+      const copiedBoard = { ...toDoCards };
+      const keys = Object.keys(copiedBoard);
       keys.forEach((key) => {
-        copyBoard[key] = toDoCards[key].filter(
+        copiedBoard[key] = toDoCards[key].filter(
           (toDoCard) => toDoCard.id !== Number(id)
         );
       });
-      return copyBoard;
+      return copiedBoard;
     });
   };
   return (
@@ -46,7 +46,7 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
           {toDoText}
           <button
             onClick={() =>
-              onDelete(magic.draggableProps["data-rbd-draggable-id"])
+              onDeleteClick(magic.draggableProps["data-rbd-draggable-id"])
             }
           >
             ❌
