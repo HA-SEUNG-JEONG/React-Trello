@@ -11,6 +11,7 @@ const Wrapper = styled.div<{ isDragging: Boolean }>`
   padding-top: 10px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
+  border: 1px solid #aeaca6;
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -41,6 +42,16 @@ const Form = styled.form`
     text-align: center;
     margin: 0 auto;
   }
+`;
+
+const Button = styled.button`
+  display: flex;
+  margin: 0 auto;
+  text-align: center;
+  background-color: tomato;
+
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 interface IAreaProps {
@@ -116,13 +127,13 @@ function Board({ toDos, boardId, index }: IBoardProps) {
               placeholder={`Add Task on ${boardId}`}
             />
           </Form>
-          <button
+          <Button
             onClick={() =>
               removeBoard(magic.draggableProps["data-rbd-draggable-id"])
             }
           >
             REMOVE BOARD
-          </button>
+          </Button>
           <Droppable droppableId={boardId}>
             {(magic, snapshot) => (
               <Area

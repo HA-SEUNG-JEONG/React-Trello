@@ -4,6 +4,52 @@ import styled from "styled-components";
 import { toDoState, IToDoStateProps } from "./atoms";
 import Board from "./Components/Board";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock, faStar } from "@fortawesome/free-solid-svg-icons";
+
+const Line = styled.div`
+  width: 85%;
+  margin: 0 auto;
+`;
+
+const Header = styled.div`
+  display: flex;
+`;
+
+const HeaderClock = styled.button`
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  margin: 30px 20px;
+  border: none;
+  background-color: transparent;
+  &:hover {
+    background-color: #8d8686;
+    border-radius: 5px;
+  }
+`;
+
+const HeaderStar = styled.button`
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  margin: 30px 20px;
+  border: none;
+  background-color: transparent;
+  &:hover {
+    background-color: #8d8686;
+    border-radius: 5px;
+  }
+`;
+
+const Main = styled.title`
+  margin-top: 20px;
+  display: flex;
+  margin-left: 100px;
+  align-items: center;
+  font-size: 60px;
+  font-weight: 600;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +58,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 70vh;
 `;
 
 const AddBoard = styled.form`
@@ -23,7 +69,19 @@ const AddBoard = styled.form`
   justify-content: center;
   align-items: center;
   width: 50%;
-  height: 250px;
+  height: 200px;
+  input {
+    background-color: rgb(29, 161, 242);
+    border: none;
+    border-radius: 3px;
+    padding: 30px;
+
+    ::placeholder {
+      color: white;
+      text-align: center;
+      font-size: 25px;
+    }
+  }
 `;
 
 const Boards = styled.div`
@@ -103,16 +161,30 @@ function App() {
     if (localStorageToDoCards === "{}" || localStorageToDoCards === null)
       return;
     setToDos(JSON.parse(localStorageToDoCards));
+    console.log(typeof localStorageToDoCards, localStorageToDoCards);
   }, []);
   useEffect(() => {
     localStorage.setItem("myList", JSON.stringify(toDos));
   }, [toDos]);
+  console.log(typeof localStorage, localStorage);
 
   return (
     <>
+      <Header>
+        <HeaderStar>
+          <FontAwesomeIcon icon={faStar} style={{ fontSize: "30px" }} />
+        </HeaderStar>
+        <HeaderClock>
+          <FontAwesomeIcon icon={faClock} style={{ fontSize: "30px" }} />
+        </HeaderClock>
+      </Header>
+      <Main>✔ To Do list</Main>
       <AddBoard onSubmit={addBoard}>
-        <input id="boardName" placeholder="Add New Board" />
+        <input id="boardName" placeholder="New Board" autoComplete="off" />
       </AddBoard>
+      <Line>
+        <hr />
+      </Line>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="boardList" type="board" direction="horizontal">
           {(magic) => (

@@ -3,6 +3,16 @@ import styled from "styled-components";
 import React from "react";
 import { useSetRecoilState } from "recoil";
 import { toDoState } from "../atoms";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSquare } from "@fortawesome/free-solid-svg-icons";
+
+const Check = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  font-size: 20px;
+`;
 
 const Card = styled.div<{ isDragging: boolean }>`
   border-radius: 5px;
@@ -26,6 +36,7 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
     setToDos((toDoCards) => {
       const copiedBoard = { ...toDoCards };
       const keys = Object.keys(copiedBoard);
+      console.log(copiedBoard["DOING"]);
       keys.forEach((key) => {
         copiedBoard[key] = toDoCards[key].filter(
           (toDoCard) => toDoCard.id !== Number(id)
@@ -43,14 +54,17 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
           {...magic.draggableProps}
           {...magic.dragHandleProps}
         >
-          {toDoText}
-          <button
-            onClick={() =>
-              onDeleteClick(magic.draggableProps["data-rbd-draggable-id"])
-            }
-          >
-            ❌
-          </button>
+          <Check>
+            <FontAwesomeIcon icon={faSquare} />
+            {toDoText}
+            <button
+              onClick={() =>
+                onDeleteClick(magic.draggableProps["data-rbd-draggable-id"])
+              }
+            >
+              <FontAwesomeIcon icon={faTrashAlt} />
+            </button>
+          </Check>
         </Card>
       )}
     </Draggable>
