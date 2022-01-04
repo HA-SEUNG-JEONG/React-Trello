@@ -72,6 +72,7 @@ interface IForm {
 
 function Board({ toDos, boardId, index }: IBoardProps) {
   const setToDos = useSetRecoilState(toDoState);
+
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onValid = ({ toDo }: IForm) => {
     const newToDo = {
@@ -89,8 +90,16 @@ function Board({ toDos, boardId, index }: IBoardProps) {
     setValue("toDo", "");
   };
 
+  const removeBoard = (id: string) => {
+    setToDos((allBoards) => {
+      const copiedBoard = { ...allBoards };
+      delete copiedBoard[id];
+      return copiedBoard;
+    });
+  };
+
   return (
-    <Draggable draggableId={boardId} index={index}>
+    <Draggable key={boardId} draggableId={boardId} index={index}>
       {(magic, snapshot) => (
         <Wrapper
           {...magic.dragHandleProps}
@@ -99,6 +108,7 @@ function Board({ toDos, boardId, index }: IBoardProps) {
           isDragging={snapshot.isDragging}
         >
           <Title>{boardId}</Title>
+
           <Form onSubmit={handleSubmit(onValid)}>
             <input
               {...register("toDo", { required: true })}
@@ -106,6 +116,13 @@ function Board({ toDos, boardId, index }: IBoardProps) {
               placeholder={`Add Task on ${boardId}`}
             />
           </Form>
+          <button
+            onClick={() =>
+              removeBoard(magic.draggableProps["data-rbd-draggable-id"])
+            }
+          >
+            REMOVE BOARD
+          </button>
           <Droppable droppableId={boardId}>
             {(magic, snapshot) => (
               <Area
