@@ -1,5 +1,8 @@
 import { atom } from "recoil";
 
+/**
+  Store a id,number
+ */
 export interface IToDo {
   id: number;
   text: string;

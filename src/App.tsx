@@ -7,11 +7,9 @@ import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faStar } from "@fortawesome/free-solid-svg-icons";
 
-const Line = styled.div`
-  width: 85%;
-  margin: 0 auto;
-`;
-
+/**
+ * Header
+ */
 const Header = styled.div`
   display: flex;
 `;
@@ -66,20 +64,32 @@ const AddBoard = styled.form`
   left: 50%;
   transform: translateX(-50%);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 50%;
   height: 200px;
   input {
-    background-color: rgb(29, 161, 242);
-    border: none;
     border-radius: 3px;
     padding: 30px;
-
     ::placeholder {
-      color: white;
+      color: black;
       text-align: center;
-      font-size: 25px;
+      font-size: 30px;
+    }
+  }
+  button {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    position: absolute;
+    bottom: -40px;
+    background-color: #13cb64;
+    border: 0;
+    outline: none;
+    box-shadow: 12px 12px 2px 1px rgba(137, 137, 165, 0.2);
+    span {
+      font-size: 20px;
     }
   }
 `;
@@ -88,9 +98,15 @@ const Boards = styled.div`
   display: grid;
   width: 100%;
   gap: 10px;
+  display: flex;
+
   grid-template-columns: repeat(3, 1fr);
 `;
 
+/**
+ *
+ * @returns input value in the board
+ */
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   // console.log(toDos); //{To Do: Array(0), DOING: Array(0), DONE: Array(0)} : 아무것도 없을 때 상태
@@ -107,6 +123,11 @@ function App() {
     input.value = "";
     input.blur();
   };
+  /**
+   *
+   * @param info
+   * @returns
+   */
   const onDragEnd = (info: DropResult) => {
     const { destination, source, type, draggableId } = info;
     if (!destination) return;
@@ -181,10 +202,10 @@ function App() {
       <Main>✔ To Do list</Main>
       <AddBoard onSubmit={addBoard}>
         <input id="boardName" placeholder="New Board" autoComplete="off" />
+        <button>
+          <span>➕</span>
+        </button>
       </AddBoard>
-      <Line>
-        <hr />
-      </Line>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="boardList" type="board" direction="horizontal">
           {(magic) => (
