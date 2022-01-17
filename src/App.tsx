@@ -74,8 +74,12 @@ const AddBoard = styled.form`
     padding: 30px;
     ::placeholder {
       color: black;
+
       text-align: center;
       font-size: 30px;
+      &:hover {
+        opacity: 0.2;
+      }
     }
   }
   button {
@@ -83,7 +87,7 @@ const AddBoard = styled.form`
     height: 70px;
     border-radius: 35px;
     position: absolute;
-    bottom: -40px;
+    bottom: 20px;
     background-color: #13cb64;
     border: 0;
     outline: none;
@@ -99,7 +103,6 @@ const Boards = styled.div`
   width: 100%;
   gap: 10px;
   display: flex;
-
   grid-template-columns: repeat(3, 1fr);
 `;
 
@@ -113,7 +116,9 @@ function App() {
   const addBoard = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const input = event.currentTarget.boardName;
-    // console.log(input);
+    if (input.value === "") {
+      return;
+    }
     setToDos((allBoards) => {
       return {
         ...allBoards,
@@ -187,7 +192,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem("myList", JSON.stringify(toDos));
   }, [toDos]);
-  console.log(typeof localStorage, localStorage);
 
   return (
     <>
