@@ -6,6 +6,7 @@ import Board from "./Components/Board";
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faStar } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet";
 
 /**
  * Header
@@ -187,7 +188,6 @@ function App() {
     if (localStorageToDoCards === "{}" || localStorageToDoCards === null)
       return;
     setToDos(JSON.parse(localStorageToDoCards));
-    console.log(typeof localStorageToDoCards, localStorageToDoCards);
   }, []);
   useEffect(() => {
     localStorage.setItem("myList", JSON.stringify(toDos));
@@ -195,6 +195,9 @@ function App() {
 
   return (
     <>
+      <Helmet>
+        <title>Trello</title>
+      </Helmet>
       <Header>
         <HeaderStar>
           <FontAwesomeIcon icon={faStar} style={{ fontSize: "30px" }} />
