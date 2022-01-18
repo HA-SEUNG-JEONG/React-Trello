@@ -16,6 +16,7 @@ const Wrapper = styled.div<{ isDragging: Boolean }>`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 `;
 
 const Title = styled.h2`
@@ -46,12 +47,20 @@ const Form = styled.form`
 
 const Button = styled.button`
   display: flex;
-  margin: 0 auto;
-  text-align: center;
-  background-color: tomato;
-
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  width: 25px;
+  height: 25px;
   border-radius: 10px;
-  padding: 10px;
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  border: 0;
+  outline: none;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 interface IAreaProps {
@@ -71,6 +80,9 @@ const Area = styled.div<IAreaProps>`
   padding: 20px;
 `;
 
+/**
+  Store a toDos,boardId,index
+ */
 interface IBoardProps {
   toDos: IToDo[];
   boardId: string;
@@ -132,7 +144,7 @@ function Board({ toDos, boardId, index }: IBoardProps) {
               removeBoard(magic.draggableProps["data-rbd-draggable-id"])
             }
           >
-            REMOVE BOARD
+            ❌
           </Button>
           <Droppable droppableId={boardId}>
             {(magic, snapshot) => (

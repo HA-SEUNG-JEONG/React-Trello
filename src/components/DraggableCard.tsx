@@ -5,23 +5,31 @@ import { useSetRecoilState } from "recoil";
 import { toDoState } from "../atoms";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { faSquare } from "@fortawesome/free-solid-svg-icons";
 
 const Check = styled.div`
   display: flex;
   justify-content: center;
   gap: 40px;
-  font-size: 20px;
+  font-size: 18px;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+  }
 `;
 
 const Card = styled.div<{ isDragging: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 5px;
   margin-bottom: 15px;
   padding: 10px 10px;
   background-color: ${(props) =>
     props.isDragging ? "#0984e3" : props.theme.cardColor};
   box-shadow: ${(props) =>
-    props.isDragging ? "2px 10px 25px rgba(0,0,0,0.3)" : "none"};
+    props.isDragging ? "2px 5px 5px rgba(0,0,0,0.3)" : "2px 5px 5px gray"};
 `;
 
 interface IDraggableCardProps {
@@ -55,8 +63,8 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
           {...magic.dragHandleProps}
         >
           <Check>
-            <FontAwesomeIcon icon={faSquare} />
-            {toDoText}
+            <input type="checkbox" />
+            <span>{toDoText}</span>
             <button
               onClick={() =>
                 onDeleteClick(magic.draggableProps["data-rbd-draggable-id"])
