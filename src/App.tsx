@@ -23,7 +23,7 @@ const HeaderClock = styled.button`
   border: none;
   background-color: transparent;
   &:hover {
-    background-color: #8d8686;
+    opacity: 0.4;
     border-radius: 5px;
   }
 `;
@@ -36,15 +36,15 @@ const HeaderStar = styled.button`
   border: none;
   background-color: transparent;
   &:hover {
-    background-color: #8d8686;
+    opacity: 0.4;
     border-radius: 5px;
   }
 `;
 
-const Main = styled.title`
+const MainTitle = styled.title`
   margin-top: 20px;
   display: flex;
-  margin-left: 100px;
+  justify-content: center;
   align-items: center;
   font-size: 60px;
   font-weight: 600;
@@ -71,30 +71,33 @@ const AddBoard = styled.form`
   width: 50%;
   height: 200px;
   input {
-    border-radius: 3px;
-    padding: 30px;
+    width: 80%;
+    border-radius: 10px;
+    padding: 30px 20px;
     ::placeholder {
+      display: flex;
+      justify-content: center;
+      align-content: center;
       color: black;
-
-      text-align: center;
-      font-size: 30px;
-      &:hover {
-        opacity: 0.2;
-      }
+      font-size: 35px;
+      position: relative;
+      top: 5px;
+      opacity: 0.2;
     }
   }
   button {
+    cursor: pointer;
     width: 70px;
     height: 70px;
     border-radius: 35px;
     position: absolute;
-    bottom: 20px;
+    right: 10px;
     background-color: #13cb64;
     border: 0;
     outline: none;
-    box-shadow: 12px 12px 2px 1px rgba(137, 137, 165, 0.2);
-    span {
-      font-size: 20px;
+    box-shadow: 2px 1px 2px 1px rgba(137, 137, 165, 0.2);
+    &:hover {
+      border: 2px solid gray;
     }
   }
 `;
@@ -118,6 +121,7 @@ function App() {
     event.preventDefault();
     const input = event.currentTarget.boardName;
     if (input.value === "") {
+      alert("Please write the title.");
       return;
     }
     setToDos((allBoards) => {
@@ -206,9 +210,13 @@ function App() {
           <FontAwesomeIcon icon={faClock} style={{ fontSize: "30px" }} />
         </HeaderClock>
       </Header>
-      <Main>✔ To Do list</Main>
+      <MainTitle>To Do list</MainTitle>
       <AddBoard onSubmit={addBoard}>
-        <input id="boardName" placeholder="New Board" autoComplete="off" />
+        <input
+          id="boardName"
+          placeholder="Enter the title of the board to be created."
+          autoComplete="off"
+        />
         <button>
           <span>➕</span>
         </button>
