@@ -106,7 +106,6 @@ const Boards = styled.div`
   display: grid;
   width: 100%;
   gap: 10px;
-  display: flex;
   grid-template-columns: repeat(3, 1fr);
 `;
 
